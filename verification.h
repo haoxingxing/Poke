@@ -1,6 +1,6 @@
 #ifndef VERIFICATION_H
 #define VERIFICATION_H
-
+#include <QEventLoop>
 #include <QMainWindow>
 #include "network.h"
 namespace Ui {
@@ -14,7 +14,7 @@ class verification : public QMainWindow
 public:
     explicit verification(QWidget *parent = 0);
     ~verification();
-
+    QEventLoop *wait;
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();

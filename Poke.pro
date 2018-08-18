@@ -28,15 +28,18 @@ SOURCES += \
         menu.cpp \
         network.cpp \
         loading.cpp \
-    verification.cpp
+    verification.cpp \
+    serverforward.cpp
 
 HEADERS += \
         menu.h \
         network.h \
         loading.h \
-    verification.h
+    verification.h \
+    serverforward.h
 
 FORMS += \
         menu.ui \
         loading.ui \
-    verification.ui
+    verification.ui \
+    serverforward.ui

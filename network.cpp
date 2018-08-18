@@ -1,5 +1,6 @@
 #include "network.h"
 QString token="NULL";
+QString username;
 network::network(QObject *parent) : QObject(parent)
 {
     socket=new QTcpSocket;
@@ -39,7 +40,7 @@ void network::readyread() {
     bb = QCryptographicHash::hash ((o.object().value("data").toString()+o.object().value("token").toString()).toLocal8Bit(), QCryptographicHash::Md5);
     md5.append(bb.toHex());
     if (md5.toUpper()==o.object().value("md5").toString())
-    {
+    {      
         emit readyreadsignal(QByteArray::fromBase64(o.object().value("data").toString().toLocal8Bit()));
     }
 }
@@ -74,6 +75,49 @@ void network::send(QJsonObject json)  {
         socket->write(byteArray.toBase64());
         socket->write("\r\n");
         socket->flush();        
+    }
+    else
+    {
+        this->connectToHost();
+    }
+}
+void network::send(QJsonObject json,QString tokenpowered)  {
+    if (isconnected)
+    {
+        QByteArray jsonArray = jsontostring(json).toLocal8Bit();
+        QString md5;
+        QByteArray bb;
+        bb = QCryptographicHash::hash (jsonArray.toBase64()+tokenpowered.toLocal8Bit(), QCryptographicHash::Md5);
+        md5.append(bb.toHex());
+        QJsonObject object;
+        object.insert("data",QString::fromStdString(jsonArray.toBase64().toStdString()));
+        object.insert("token",tokenpowered);
+        object.insert("md5",md5.toUpper());
+        QByteArray byteArray = jsontostring(object).toLocal8Bit();
+        socket->write(byteArray.toBase64());
+        socket->write("\r\n");
+        socket->flush();
+    }
+    else
+    {
+        this->connectToHost();
+    }
+}
+void network::send(QString data)  {
+    if (isconnected)
+    {
+        QString md5;
+        QByteArray bb;
+        bb = QCryptographicHash::hash (data.toLocal8Bit().toBase64()+token.toLocal8Bit(), QCryptographicHash::Md5);
+        md5.append(bb.toHex());
+        QJsonObject object;
+        object.insert("data",QString::fromStdString(data.toLocal8Bit().toBase64().toStdString()));
+        object.insert("token",token);
+        object.insert("md5",md5.toUpper());
+        QByteArray byteArray = jsontostring(object).toLocal8Bit();
+        socket->write(byteArray.toBase64());
+        socket->write("\r\n");
+        socket->flush();
     }
     else
     {
