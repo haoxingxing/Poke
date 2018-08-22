@@ -1,5 +1,6 @@
-#include "verification.h"
-#include "serverforward.h"
+﻿#include "verification.h"
+#include "gomoku.h"
+#include "matchqueue.h"
 #include <QApplication>
 int main(int argc, char *argv[])
 {
@@ -8,7 +9,7 @@ int main(int argc, char *argv[])
     verification verify;
     verify.wait=&loopofverify;
     loopofverify.exec();
-    serverforward sfw;
-    sfw.show();
+    MatchQueue *matchQueue=new MatchQueue(NULL,"test",3);
+    matchQueue->show();
     return a.exec();
 }

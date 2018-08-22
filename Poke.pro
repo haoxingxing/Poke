@@ -29,17 +29,25 @@ SOURCES += \
         network.cpp \
         loading.cpp \
     verification.cpp \
-    serverforward.cpp
+    gomoku.cpp \
+    tcpserverforward.cpp \
+    test.cpp \
+    matchqueue.cpp
 
 HEADERS += \
         menu.h \
         network.h \
         loading.h \
     verification.h \
-    serverforward.h
+    gomoku.h \
+    tcpserverforward.h \
+    test.h \
+    matchqueue.h
 
 FORMS += \
         menu.ui \
         loading.ui \
     verification.ui \
-    serverforward.ui
+    gomoku.ui \
+    test.ui \
+    matchqueue.ui
