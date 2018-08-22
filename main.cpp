@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
     matchQueue->show();
     loopqueue.exec();
     Gomoku *G=new Gomoku(NULL,matchQueue->queuenumbersnames);
-    G->show();
+    G->show();    
     delete matchQueue;
+
     return a.exec();
 }

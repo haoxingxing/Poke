@@ -11,7 +11,7 @@
 #include <QJsonDocument>
 #include <QCryptographicHash>
 #include "loading.h"
-#define SERVERHOST "localhost"
+#define SERVERHOST "monstars.cn"
 #define SERVERPORT 8864
 
 #define T_P_N_P(username,password) network::jsonencode(QStringList()<<"username"<<"password",QStringList()<<username<<password)

@@ -36,6 +36,7 @@ Gomoku::Gomoku(QWidget *parent,QStringList players) :
     tsf->connect(tsf,&TcpServerForward::disconnectedsignal,this,[&]{
         QMessageBox::about(this,"Game Over","The Object Has Disconnected");
         this->destroy();
+        std::terminate();
     });
     datas+="Connecting P2P...\n";
 }
@@ -183,6 +184,8 @@ void Gomoku::win(bool who) {
         QMessageBox::about(this,"Lost","You Lost to The ["+object+"]");
     }
     this->destroy();
+    this->deleteLater();
+    std::terminate();
 }
 void Gomoku::drop(int x, int y,bool issender) {
     if (!issender)
