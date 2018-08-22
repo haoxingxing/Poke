@@ -24,6 +24,8 @@
 #define T_SERVERFORWARD(o) network::jsonencode(T_C<<"object",QStringList()<<"tcpserverforward"<<o)
 #define T_MATCHQUEUE(name,all) network::addjsontojson(network::jsonencode(T_C_F,QStringList()<<"matchqueue"<<"join"),"parameter",network::jsonencode(QStringList()<<"queuename"<<"queueall",QStringList()<<name<<all))
 
+#define T_P2P_GOMOKU_DROP(x,y) network::addjsontojson(network::jsonencode(T_C_F,QStringList()<<"Gomoku"<<"drop"),"parameter",network::jsonencode(QStringList()<<"x"<<"y",QStringList()<<QString::number(x)<<QString::number(y)))
+
 QString extern token;
 QString extern username;
 class network : public QObject

@@ -17,6 +17,7 @@ void TcpServerForward::readyread(QString data) {
         if (recvjson.value("status").toString()=="200")
         {
             isconnectedtoserver=true;
+            emit ctss();
         }
         else
         {

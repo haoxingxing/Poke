@@ -9,7 +9,12 @@ int main(int argc, char *argv[])
     verification verify;
     verify.wait=&loopofverify;
     loopofverify.exec();
-    MatchQueue *matchQueue=new MatchQueue(NULL,"test",3);
+    QEventLoop loopqueue;
+    MatchQueue *matchQueue=new MatchQueue(NULL,"Gomoku",2,&loopqueue);
     matchQueue->show();
+    loopqueue.exec();
+    Gomoku *G=new Gomoku(NULL,matchQueue->queuenumbersnames);
+    G->show();
+    delete matchQueue;
     return a.exec();
 }

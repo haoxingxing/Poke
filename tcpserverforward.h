@@ -16,6 +16,7 @@ private:
     bool isconnectedp2p=false;
 
 signals:
+    void ctss();
     void readyreadsignal(QString);
     void connectedsignal();
     void disconnectedsignal();

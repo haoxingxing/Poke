@@ -2,6 +2,7 @@
 #define MATCHQUEUE_H
 
 #include "network.h"
+#include <QEventLoop>
 #include <QTimer>
 #include <QWidget>
 
@@ -14,14 +15,15 @@ class MatchQueue : public QWidget
     Q_OBJECT
 
 public:
-    explicit MatchQueue(QWidget *parent = 0,QString queuename="e",int queuenumber=999);
+    explicit MatchQueue(QWidget *parent = 0,QString queuename="e",int queuenumber=999,QEventLoop *wait=new QEventLoop);
     ~MatchQueue();
+    QStringList queuenumbersnames;
 private slots:
     void readyread(QString data);
     void numsupdate();
 private:
     QString queuename;
-    QStringList queuenumbersnames;
+    QEventLoop *loop;
     int queuenumbers;
     QTimer timer;
     network net;

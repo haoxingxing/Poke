@@ -1,7 +1,7 @@
 ﻿#include "matchqueue.h"
 #include "ui_matchqueue.h"
 #include <QDebug>
-MatchQueue::MatchQueue(QWidget *parent,QString queuename,int queuenumber) :
+MatchQueue::MatchQueue(QWidget *parent,QString queuename,int queuenumber,QEventLoop *wait) :
     QWidget(parent),
     ui(new Ui::MatchQueue)
 {
@@ -9,6 +9,7 @@ MatchQueue::MatchQueue(QWidget *parent,QString queuename,int queuenumber) :
     net.connect(&net,&network::connectedsignal,this,[&]{
         net.send(T_LOGIN_TOKEN,"NULL");
     });
+    loop=wait;
     this->queuename=queuename;
     this->queuenumbers=queuenumber;
     net.connect(&net,SIGNAL(readyreadsignal(QString)),this,SLOT(readyread(QString)));
@@ -71,6 +72,7 @@ void MatchQueue::readyread(QString data)
             ui->textBrowser->append("Matched");
             ui->info->setText("Matched");
             ui->status->setText(QString::number(all)+"/"+QString::number(queuenumbers));
+            loop->quit();
         }
     }
 }
