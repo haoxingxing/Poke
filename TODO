@@ -1,0 +1,11 @@
+ - ID HELPER
+	help others with id
+		-command line
+			-p2p
+		-desktop-show
+			-p2p
+ -CHAT
+	chat with others when they are friends
+		-p2p
+		-server-friend
+		-main-call
