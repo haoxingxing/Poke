@@ -1,6 +1,7 @@
 ﻿#include "verification.h"
-#include "gomoku.h"
+#include "menu.h"
 #include "matchqueue.h"
+#include "tcpserverforward.h"
 #include <QApplication>
 int main(int argc, char *argv[])
 {
@@ -8,14 +9,8 @@ int main(int argc, char *argv[])
     QEventLoop loopofverify;
     verification verify;
     verify.wait=&loopofverify;
-    loopofverify.exec();
-    QEventLoop loopqueue;
-    MatchQueue *matchQueue=new MatchQueue(NULL,"Gomoku",2,&loopqueue);
-    matchQueue->show();
-    loopqueue.exec();
-    Gomoku *G=new Gomoku(NULL,matchQueue->queuenumbersnames);
-    G->show();    
-    delete matchQueue;
-
+    loopofverify.exec();    
+    menu main;
+    main.show();
     return a.exec();
 }

@@ -2,28 +2,27 @@
 #define TCPSERVERFORWARD_H
 #include "network.h"
 
-class TcpServerForward : public QObject
+class TcpServerForward : public network
 {
     Q_OBJECT
 public:    
     explicit TcpServerForward(QObject *parent = nullptr);
-    void send(QJsonObject data);
-    void send(QString data);
+    ~TcpServerForward();
     void connectp2p(QString object);
+    void disconnectFromP2P();
 private:
-    network net;
     bool isconnectedtoserver=false;
     bool isconnectedp2p=false;
 
 signals:
     void ctss();
-    void readyreadsignal(QString);
-    void connectedsignal();
-    void disconnectedsignal();
+    void readyreadp2psignal(QString);
+    void connectedp2psignal();
+    void disconnectedp2psignal();
 private slots:
-    void disconnected();
-    void conected();
-    void readyread(QString data);
+    void disconnectedp2p();
+    void conectedtoserver();
+    void readyreadp2p(QString data);
 
 };
 

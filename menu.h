@@ -1,4 +1,4 @@
-#ifndef MENU_H
+﻿#ifndef MENU_H
 #define MENU_H
 
 #include <QMainWindow>
@@ -14,6 +14,12 @@ class menu : public QMainWindow
 public:
     explicit menu(QWidget *parent = 0);
     ~menu();
+
+private slots:
+
+    void on_start_gomoku_game_clicked();
+
+    void on_start_test_clicked();
 
 private:
     Ui::menu *ui;

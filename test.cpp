@@ -6,7 +6,7 @@ test::test(QWidget *parent) :
     ui(new Ui::test)
 {
     ui->setupUi(this);
-    tsf.connect(&tsf,SIGNAL(readyreadsignal(QString)),this,SLOT(readyread(QString)));
+    tsf.connect(&tsf,SIGNAL(readyreadp2psignal(QString)),this,SLOT(readyread(QString)));
 }
 
 test::~test()

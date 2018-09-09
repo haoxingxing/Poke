@@ -83,3 +83,9 @@ MatchQueue::~MatchQueue()
 {
     delete ui;
 }
+void MatchQueue::closeEvent(QCloseEvent *event)
+{
+    event->accept();
+    queuenumbersnames.clear();
+    loop->exit();
+}

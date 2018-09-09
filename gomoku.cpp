@@ -12,9 +12,9 @@ Gomoku::Gomoku(QWidget *parent,QStringList players) :
     QString a=players[0];
     QString b=players[1];
     if (a==username){whoIam=true;object=b;}else{whoIam=false;object=a;}
-    tsf=new TcpServerForward();
-    tsf->connect(tsf,SIGNAL(readyreadsignal(QString)),this,SLOT(readyread(QString)));
-    tsf->connect(tsf,&TcpServerForward::connectedsignal,this,[&]{
+    tsf=new TcpServerForward;
+    tsf->connect(tsf,SIGNAL(readyreadp2psignal(QString)),this,SLOT(readyread(QString)));
+    tsf->connect(tsf,&TcpServerForward::connectedp2psignal,this,[&]{
         init();
         datas+="Connected Client["+object+"]\n";
         if (whoIam)
@@ -33,16 +33,17 @@ Gomoku::Gomoku(QWidget *parent,QStringList players) :
         datas+="Connected Main Server\n";
         this->repaint();
     });
-    tsf->connect(tsf,&TcpServerForward::disconnectedsignal,this,[&]{
+    tsf->connect(tsf,&TcpServerForward::disconnectedp2psignal,this,[&]{
         QMessageBox::about(this,"Game Over","The Object Has Disconnected");
         this->destroy();
-        std::terminate();
+        this->deleteLater();
     });
     datas+="Connecting P2P...\n";
 }
 void Gomoku::readyread(QString data) {
     QJsonObject jo=QJsonDocument::fromJson(data.toLocal8Bit()).object();
     QJsonObject pj=jo.value("parameter").toObject();
+    if (pj.value("x").toString().toInt()!=0&&pj.value("y").toString().toInt()!=0)
     drop(pj.value("x").toString().toInt(),pj.value("y").toString().toInt(),false);
 }
 void Gomoku::init() {
@@ -184,8 +185,8 @@ void Gomoku::win(bool who) {
         QMessageBox::about(this,"Lost","You Lost to The ["+object+"]");
     }
     this->destroy();
+    tsf->deleteLater();
     this->deleteLater();
-    std::terminate();
 }
 void Gomoku::drop(int x, int y,bool issender) {
     if (!issender)
@@ -271,4 +272,10 @@ void Gomoku::drop(int x, int y,bool issender) {
     }
     this->repaint();
     this->checkwinlost();
+}
+void Gomoku::closeEvent(QCloseEvent *event) {
+    event->ignore();    
+    tsf->disconnectFromP2P();
+    this->destroy();
+    this->deleteLater();
 }

@@ -22,6 +22,7 @@ private slots:
     void drop(int x,int y,bool issender);
     void readyread(QString data);
 private:   
+    void closeEvent(QCloseEvent *event);
     void init();
     void win(bool who);
     void paintEvent(QPaintEvent *event);

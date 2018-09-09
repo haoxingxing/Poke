@@ -22,6 +22,7 @@ private slots:
     void readyread(QString data);
     void numsupdate();
 private:
+    void closeEvent(QCloseEvent *event);
     QString queuename;
     QEventLoop *loop;
     int queuenumbers;

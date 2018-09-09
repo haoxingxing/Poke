@@ -1,11 +1,11 @@
-#include "network.h"
+﻿#include "network.h"
 QString token="NULL";
 QString username;
 network::network(QObject *parent) : QObject(parent)
 {
     socket=new QTcpSocket;
     loadbuf=new loading(NULL);
-    timeouttm=new QTimer;    
+    timeouttm=new QTimer;
 }
 
 void network::connectToHost() {
@@ -40,7 +40,7 @@ void network::readyread() {
     bb = QCryptographicHash::hash ((o.object().value("data").toString()+o.object().value("token").toString()).toLocal8Bit(), QCryptographicHash::Md5);
     md5.append(bb.toHex());
     if (md5.toUpper()==o.object().value("md5").toString())
-    {      
+    {
         emit readyreadsignal(QByteArray::fromBase64(o.object().value("data").toString().toLocal8Bit()));
     }
 }
@@ -48,16 +48,19 @@ void network::timeoutconnecting()
 {
     timeouttm->stop();
     isconnected=false;
-    loadbuf->setloadingtext("Failed Connecting");       
+    loadbuf->setloadingtext("Failed Connecting");
     QMessageBox::critical(NULL,"Network Error","Failed to connect to host",QMessageBox::Ok);
     loadbuf->hide();
 }
 void network::disconnected()
 {
-    isconnected=false;
-    loadbuf->show();
-    loadbuf->setloadingtext("Disconnected From Host");
-    this->connectToHost();
+    if (isconnected)
+    {
+        isconnected=false;
+        loadbuf->show();
+        loadbuf->setloadingtext("Disconnected From Host");
+        this->connectToHost();
+    }
 }
 void network::send(QJsonObject json)  {
     if (isconnected)
@@ -74,7 +77,7 @@ void network::send(QJsonObject json)  {
         QByteArray byteArray = jsontostring(object).toLocal8Bit();
         socket->write(byteArray.toBase64());
         socket->write("\r\n");
-        socket->flush();        
+        socket->flush();
     }
     else
     {
@@ -101,6 +104,15 @@ void network::send(QJsonObject json,QString tokenpowered)  {
     else
     {
         this->connectToHost();
+    }
+}
+void network::disconnectFromHost() {
+    if (isconnected)
+    {
+        isconnected=false;
+        socket->disconnectFromHost();       
+        socket->close();
+        delete socket;
     }
 }
 void network::send(QString data)  {
@@ -136,9 +148,9 @@ QJsonObject network::addjsontojson(QJsonObject a,QString key,QJsonObject value)
     return a;
 }
 QJsonObject network::jsonencode(QStringList key,QStringList value) {
-   QJsonObject obj;
-   if (key.length()!=value.length()) return obj;
-   for (int x=0;x<key.length();x++)
-           obj.insert(key.value(x),value.value(x));
-   return obj;
+    QJsonObject obj;
+    if (key.length()!=value.length()) return obj;
+    for (int x=0;x<key.length();x++)
+        obj.insert(key.value(x),value.value(x));
+    return obj;
 }
