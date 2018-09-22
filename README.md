@@ -1,3 +1,3 @@
 # Poke
 ## Powered by Qt(qt.io)
-### Now Programing Status: Perfecting Server Based Class & Client Based Class
+### Now Programing Status: Perfecting Server Base Class & Client Base Class
