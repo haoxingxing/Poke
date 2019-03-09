@@ -1,3 +1,3 @@
 # Poke
 ## Powered by Qt(qt.io)
-### Now Programing Status: Perfecting Server Base Class & Client Base Class
+### Now Programing Status: Moved and Rewrote https://github.com/haoxingxing/Chess_Game
